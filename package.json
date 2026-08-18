@@ -1,0 +1,42 @@
+{
+  "name": "a11y-copilot",
+  "version": "0.1.0",
+  "description": "An accessibility auditor built on a 3-agent pipeline (Planning, Execution, Validation) that scans a page, grounds fixes in WCAG/ARIA guidance via local RAG, and validates fixes by simulating them in a cloned DOM before reporting them as confirmed.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "a11y-copilot": "./dist/cli.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "dist",
+    "data"
+  ],
+  "scripts": {
+    "build": "tsc -p .",
+    "dev": "tsx src/cli.ts",
+    "build:rag": "tsx src/rag/buildIndex.ts",
+    "test": "vitest run",
+    "prepublishOnly": "npm run build && npm run build:rag",
+    "postinstall": "playwright install chromium"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.70.0",
+    "@axe-core/playwright": "^4.13.0",
+    "@huggingface/transformers": "^3.0.0",
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "axe-core": "^4.10.0",
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "playwright": "^1.48.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  }
+}
