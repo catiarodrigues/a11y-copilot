@@ -1,6 +1,6 @@
 {
   "name": "@catiarodrigues/a11y-copilot",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "An accessibility auditor built on a 3-agent pipeline (Planning, Execution, Validation) that scans a page, grounds fixes in WCAG/ARIA guidance via local RAG, and validates fixes by simulating them in a cloned DOM before reporting them as confirmed.",
   "keywords": [
     "accessibility",
@@ -36,6 +36,7 @@
   ],
   "scripts": {
     "build": "tsc -p .",
+    "postbuild": "node -e \"require('fs').chmodSync('dist/cli.js', 0o755)\"",
     "dev": "tsx src/cli.ts",
     "build:rag": "tsx src/rag/buildIndex.ts",
     "pretest": "tsx src/rag/warmup.ts",
