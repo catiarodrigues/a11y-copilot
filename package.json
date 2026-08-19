@@ -2,17 +2,34 @@
   "name": "a11y-copilot",
   "version": "0.1.0",
   "description": "An accessibility auditor built on a 3-agent pipeline (Planning, Execution, Validation) that scans a page, grounds fixes in WCAG/ARIA guidance via local RAG, and validates fixes by simulating them in a cloned DOM before reporting them as confirmed.",
+  "keywords": [
+    "accessibility",
+    "a11y",
+    "wcag",
+    "axe-core",
+    "playwright",
+    "claude",
+    "mcp",
+    "cli"
+  ],
+  "homepage": "https://a11y-copilot.catiarodrigues.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/catiarodrigues/a11y-copilot.git"
+  },
+  "bugs": "https://github.com/catiarodrigues/a11y-copilot/issues",
+  "author": "Cátia Rodrigues",
   "license": "MIT",
   "type": "module",
   "bin": {
     "a11y-copilot": "./dist/cli.js"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20.10.0"
   },
   "files": [
     "dist",
-    "data"
+    "data/embeddings.json"
   ],
   "scripts": {
     "build": "tsc -p .",
