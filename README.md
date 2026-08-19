@@ -1,6 +1,7 @@
 # a11y-copilot
 
 [![CI](https://github.com/catiarodrigues/a11y-copilot/actions/workflows/ci.yml/badge.svg)](https://github.com/catiarodrigues/a11y-copilot/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/%40catiarodrigues%2Fa11y-copilot.svg)](https://www.npmjs.com/package/@catiarodrigues/a11y-copilot)
 
 A CLI accessibility auditor built on a 3-agent pipeline (Planning → Execution → Validation).
 
@@ -12,7 +13,23 @@ source files.
 
 **Status:** early build, work in progress.
 
-Full documentation — including the MCP tool reference — lives in [`docs/`](docs/), an Astro Starlight site (`cd docs && npm install && npm run dev`).
+Full documentation — getting started, the command reference, mock mode, architecture, and
+the MCP tool contracts — lives at **[a11y-copilot.catiarodrigues.dev](https://a11y-copilot.catiarodrigues.dev)**.
+Source in [`docs/`](docs/) (Astro Starlight; `cd docs && npm install && npm run dev` to preview locally).
+
+## Install
+
+```bash
+npm install -g @catiarodrigues/a11y-copilot
+```
+
+`postinstall` downloads a Chromium build for Playwright automatically — no separate setup
+step. Then set up your API key (or skip straight to mock mode) as described in [Cost](#cost)
+below, and run:
+
+```bash
+a11y-copilot audit <url>
+```
 
 ## How it works
 
@@ -71,6 +88,8 @@ a11y-copilot audit <url> \
 ```
 
 ## Development
+
+To work on a11y-copilot itself, rather than just use it, clone the repo:
 
 ```bash
 npm install
