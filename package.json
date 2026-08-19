@@ -18,6 +18,7 @@
     "build": "tsc -p .",
     "dev": "tsx src/cli.ts",
     "build:rag": "tsx src/rag/buildIndex.ts",
+    "pretest": "tsx src/rag/warmup.ts",
     "test": "vitest run",
     "prepublishOnly": "npm run build && npm run build:rag",
     "postinstall": "playwright install chromium"

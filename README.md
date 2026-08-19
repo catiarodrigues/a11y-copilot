@@ -1,5 +1,7 @@
 # a11y-copilot
 
+[![CI](https://github.com/catiarodrigues/a11y-copilot/actions/workflows/ci.yml/badge.svg)](https://github.com/catiarodrigues/a11y-copilot/actions/workflows/ci.yml)
+
 A CLI accessibility auditor built on a 3-agent pipeline (Planning → Execution → Validation).
 
 It scans a rendered page, explains each violation grounded in real WCAG 2.2 / ARIA APG
