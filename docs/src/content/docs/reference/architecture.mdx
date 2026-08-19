@@ -3,22 +3,27 @@ title: Architecture
 description: The 3-agent pipeline, and why validation trusts the simulator over the model.
 ---
 
+import { Card, CardGrid, Aside } from '@astrojs/starlight/components';
+
 ## The pipeline
 
-```
-Planning ──▶ Execution ──▶ Validation
-             (per region)   │    ▲
-                             ▼    │
-                       revise on failure
-                       (≤ --max-retries)
-```
+<CardGrid>
+	<Card title="1. Planning">
+		Reasons over the URL and an optional `--focus` hint — no tools, no page seen yet. Returns a `ScanPlan`: which regions to scope to, which axe-core tags to prioritize. The pipeline's cheapest step, by design.
+	</Card>
+	<Card title="2. Execution">
+		Per region: calls `scan_page`, grounds each violation via `retrieve_guidance` (RAG), proposes one patch per violation via `propose_fix`.
+	</Card>
+	<Card title="3. Validation">
+		Calls `simulate_fix_and_rescan` against a cloned, isolated copy of the page and summarizes the result.
+	</Card>
+</CardGrid>
 
-`runAudit()` in `src/agents/orchestrator.ts` is the whole system:
+<Aside type="caution" title="On failure">
+	If a fix didn't resolve the violation (or introduced new ones), Execution's `reviseFix()` proposes a different patch for the *same* violation — looping back to Validation, up to `--max-retries` times.
+</Aside>
 
-1. **Planning** reasons over the URL and an optional `--focus` hint — no tools, no page seen yet — and returns a `ScanPlan`: which CSS regions to scope to, and which axe-core rule tags to prioritize. It's the pipeline's cheapest step, by design.
-2. For each region, **Execution** calls `scan_page`, grounds each violation via `retrieve_guidance` (RAG), and proposes one concrete patch per violation via `propose_fix`.
-3. For each proposed fix, **Validation** calls `simulate_fix_and_rescan` against a cloned, isolated copy of the page and summarizes the result.
-4. If the fix didn't resolve the violation (or introduced new ones), Execution's `reviseFix()` proposes a different patch for the same violation, up to `--max-retries` times.
+`runAudit()` in `src/agents/orchestrator.ts` ties this together in about 60 lines: plan once, then for each region, propose and validate fixes one at a time, retrying on failure.
 
 ## Ground truth, not opinion
 
