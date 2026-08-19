@@ -1,5 +1,5 @@
 {
-  "name": "a11y-copilot",
+  "name": "@catiarodrigues/a11y-copilot",
   "version": "0.1.0",
   "description": "An accessibility auditor built on a 3-agent pipeline (Planning, Execution, Validation) that scans a page, grounds fixes in WCAG/ARIA guidance via local RAG, and validates fixes by simulating them in a cloned DOM before reporting them as confirmed.",
   "keywords": [
@@ -20,6 +20,9 @@
   "bugs": "https://github.com/catiarodrigues/a11y-copilot/issues",
   "author": "Cátia Rodrigues",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "bin": {
     "a11y-copilot": "./dist/cli.js"
