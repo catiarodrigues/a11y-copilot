@@ -1,0 +1,37 @@
+---
+title: a11y-copilot
+description: An AI-agent accessibility auditor that verifies its own fixes before trusting them.
+template: splash
+hero:
+  tagline: A CLI accessibility auditor built on a 3-agent pipeline — Planning, Execution, Validation — that never calls a fix "confirmed" without simulating it first.
+  actions:
+    - text: Getting started
+      link: /guides/getting-started/
+      icon: right-arrow
+      variant: primary
+    - text: View on GitHub
+      link: https://github.com/catiarodrigues/a11y-copilot
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## How it works
+
+<CardGrid stagger>
+	<Card title="Scan" icon="magnifier">
+		[axe-core](https://github.com/dequelabs/axe-core) driven through [Playwright](https://playwright.dev/), against the real rendered DOM — works against any framework.
+	</Card>
+	<Card title="Ground" icon="open-book">
+		Every explanation is grounded in a local RAG index over the WCAG 2.2 / ARIA APG corpus — no API cost, no external vector DB.
+	</Card>
+	<Card title="Fix" icon="setting">
+		The Execution agent proposes a concrete DOM patch per violation via [MCP](https://modelcontextprotocol.io) tools.
+	</Card>
+	<Card title="Validate" icon="approve-check">
+		The fix is simulated against a cloned copy of the page and re-scanned. A fix is only "confirmed" once axe-core agrees — never on the model's word alone.
+	</Card>
+</CardGrid>
+
+It never modifies your live page or your source files.

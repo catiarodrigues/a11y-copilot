@@ -12,6 +12,8 @@ source files.
 
 **Status:** early build, work in progress.
 
+Full documentation — including the MCP tool reference — lives in [`docs/`](docs/), an Astro Starlight site (`cd docs && npm install && npm run dev`).
+
 ## How it works
 
 - **Scanning** — [axe-core](https://github.com/dequelabs/axe-core) driven through
