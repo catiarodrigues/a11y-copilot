@@ -50,3 +50,13 @@ npm test
 ```
 
 Runs free — no API key needed. One integration test in `test/agents/orchestrator.integration.test.ts` auto-skips unless `ANTHROPIC_API_KEY` is set.
+
+## Lint and format
+
+```bash
+npm run lint          # oxlint
+npm run format:check  # oxfmt --check
+npm run format:write   # oxfmt -- applies fixes
+```
+
+Both `lint` and `format:check` run in CI on every push, and stay silent on a clean pass.

@@ -99,6 +99,8 @@ npm run dev -- audit "file://$(pwd)/test/fixtures/missing-alt.html" --mock
 npm test                # full suite runs free -- no API key needed; one integration
                          # test auto-skips unless ANTHROPIC_API_KEY is set
 npm run build            # type-checks and compiles to dist/
+npm run lint              # oxlint
+npm run format:check       # oxfmt --check (or `format:write` to apply)
 ```
 
 ## License
