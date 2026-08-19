@@ -5,9 +5,6 @@ import starlight from '@astrojs/starlight';
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://a11y-copilot.catiarodrigues.dev',
-	redirects: {
-		'/': '/guides/',
-	},
 	integrations: [
 		starlight({
 			title: 'a11y-copilot',
@@ -20,10 +17,10 @@ export default defineConfig({
 				{
 					label: 'Guides',
 					items: [
-						{ label: 'Overview', slug: 'guides' },
-						{ label: 'Getting started', slug: 'guides/getting-started' },
-						{ label: 'Commands', slug: 'guides/commands' },
-						{ label: 'Mock mode', slug: 'guides/mock-mode' },
+						{ label: 'Overview', link: '/' },
+						{ label: 'Getting started', slug: 'getting-started' },
+						{ label: 'Commands', slug: 'commands' },
+						{ label: 'Mock mode', slug: 'mock-mode' },
 					],
 				},
 				{

@@ -25,7 +25,7 @@ ANTHROPIC_API_KEY=      # required unless using --mock
 A11Y_COPILOT_MOCK=      # set to "true" to skip Claude API calls everywhere
 ```
 
-Get a key at [console.anthropic.com](https://console.anthropic.com/). No key? See [Mock mode](/guides/mock-mode/) — it costs nothing and still runs the real scanner and the real fix-validation simulation.
+Get a key at [console.anthropic.com](https://console.anthropic.com/). No key? See [Mock mode](/mock-mode/) — it costs nothing and still runs the real scanner and the real fix-validation simulation.
 
 ## Build the RAG index
 
@@ -41,7 +41,7 @@ npm run build:rag
 npm run dev -- audit "file://$(pwd)/test/fixtures/missing-alt.html" --mock
 ```
 
-Drop `--mock` (with `ANTHROPIC_API_KEY` set) to run it against the real Claude API. See [Commands](/guides/commands/) for the full flag reference.
+Drop `--mock` (with `ANTHROPIC_API_KEY` set) to run it against the real Claude API. See [Commands](/commands/) for the full flag reference.
 
 ## Run the test suite
 

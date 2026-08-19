@@ -33,7 +33,7 @@ A fix that runs out of retries is still reported — as `status: "suggested-unve
 - `realAgents` — real Claude API calls throughout.
 - `mockAgents` — deterministic, free, still exercising the real MCP server and simulator.
 
-`runAudit()` depends only on the interface, so `--mock` swaps the whole reasoning layer without the orchestrator, the tests, or the report formatter knowing or caring. See [Mock mode](/guides/mock-mode/) for the full breakdown.
+`runAudit()` depends only on the interface, so `--mock` swaps the whole reasoning layer without the orchestrator, the tests, or the report formatter knowing or caring. See [Mock mode](/mock-mode/) for the full breakdown.
 
 ## Why the scanner is its own MCP server
 
