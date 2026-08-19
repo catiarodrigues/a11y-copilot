@@ -15,7 +15,10 @@ program.name("a11y-copilot").description("AI-assisted accessibility auditor");
 program
   .command("scan <url>")
   .description("Raw axe-core scan, no AI (debug utility)")
-  .option("--tags <tags>", "Comma-separated axe-core rule tags, e.g. wcag2a,wcag2aa,wcag21aa,wcag22aa")
+  .option(
+    "--tags <tags>",
+    "Comma-separated axe-core rule tags, e.g. wcag2a,wcag2aa,wcag21aa,wcag22aa",
+  )
   .action(async (url: string, opts: { tags?: string }) => {
     const result = await scanUrl(url, { tags: opts.tags?.split(",").map((t) => t.trim()) });
     console.log(JSON.stringify(result, null, 2));
@@ -24,7 +27,10 @@ program
 program
   .command("explain <url>")
   .description("Scan via the MCP server and have one agent explain the top violation")
-  .option("--mock", "Skip the Claude API call; template the explanation from real scan data instead (free)")
+  .option(
+    "--mock",
+    "Skip the Claude API call; template the explanation from real scan data instead (free)",
+  )
   .action(async (url: string, opts: { mock?: boolean }) => {
     if (opts.mock || isMockMode()) {
       console.log(await explainOneViolationMock(url));
@@ -40,8 +46,16 @@ program
   .description("Full Planning -> Execution -> Validation pipeline")
   .option("--mock", "Use deterministic free agents instead of Claude API calls")
   .option("--focus <hint>", "Scope hint for the Planning stage, e.g. a CSS selector or area name")
-  .option("--tags <tags>", "Comma-separated axe-core rule tags, overrides the Planning agent's choice")
-  .option("--max-violations <n>", "Max violations to propose fixes for per region", (v) => parseInt(v, 10), 5)
+  .option(
+    "--tags <tags>",
+    "Comma-separated axe-core rule tags, overrides the Planning agent's choice",
+  )
+  .option(
+    "--max-violations <n>",
+    "Max violations to propose fixes for per region",
+    (v) => parseInt(v, 10),
+    5,
+  )
   .option("--max-retries <n>", "Max validation retries per fix", (v) => parseInt(v, 10), 3)
   .option("--output <format>", "Report format: terminal or json", "terminal")
   .action(
@@ -73,7 +87,9 @@ program
         maxRetries: opts.maxRetries,
       });
 
-      console.log(opts.output === "json" ? JSON.stringify(report, null, 2) : formatReport(url, report));
+      console.log(
+        opts.output === "json" ? JSON.stringify(report, null, 2) : formatReport(url, report),
+      );
     },
   );
 

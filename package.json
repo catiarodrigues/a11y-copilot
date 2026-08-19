@@ -3,40 +3,40 @@
   "version": "0.1.1",
   "description": "An accessibility auditor built on a 3-agent pipeline (Planning, Execution, Validation) that scans a page, grounds fixes in WCAG/ARIA guidance via local RAG, and validates fixes by simulating them in a cloned DOM before reporting them as confirmed.",
   "keywords": [
-    "accessibility",
     "a11y",
-    "wcag",
+    "accessibility",
     "axe-core",
-    "playwright",
     "claude",
+    "cli",
     "mcp",
-    "cli"
+    "playwright",
+    "wcag"
   ],
   "homepage": "https://a11y-copilot.catiarodrigues.dev",
+  "bugs": "https://github.com/catiarodrigues/a11y-copilot/issues",
+  "license": "MIT",
+  "author": "Cátia Rodrigues",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/catiarodrigues/a11y-copilot.git"
   },
-  "bugs": "https://github.com/catiarodrigues/a11y-copilot/issues",
-  "author": "Cátia Rodrigues",
-  "license": "MIT",
-  "publishConfig": {
-    "access": "public"
-  },
-  "type": "module",
   "bin": {
     "a11y-copilot": "./dist/cli.js"
-  },
-  "engines": {
-    "node": ">=20.10.0"
   },
   "files": [
     "dist",
     "data/embeddings.json"
   ],
+  "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsc -p .",
     "postbuild": "node -e \"require('fs').chmodSync('dist/cli.js', 0o755)\"",
+    "lint": "oxlint .",
+    "format:check": "oxfmt --check .",
+    "format:write": "oxfmt .",
     "dev": "tsx src/cli.ts",
     "build:rag": "tsx src/rag/buildIndex.ts",
     "pretest": "tsx src/rag/warmup.ts",
@@ -56,8 +56,13 @@
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
+    "oxfmt": "^0.64.0",
+    "oxlint": "^1.79.0",
     "tsx": "^4.19.0",
     "typescript": "^5.6.0",
     "vitest": "^2.1.0"
+  },
+  "engines": {
+    "node": ">=20.10.0"
   }
 }

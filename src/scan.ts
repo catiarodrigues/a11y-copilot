@@ -11,7 +11,10 @@ export interface ScanOptions {
 }
 
 /** Runs axe-core against an already-loaded page. Does not own the page's lifecycle. */
-export async function runAxeScan(page: Page, options: Pick<ScanOptions, "tags" | "include"> = {}): Promise<Violation[]> {
+export async function runAxeScan(
+  page: Page,
+  options: Pick<ScanOptions, "tags" | "include"> = {},
+): Promise<Violation[]> {
   let builder = new AxeBuilder({ page }).withTags(options.tags ?? DEFAULT_TAGS);
   for (const selector of options.include ?? []) {
     builder = builder.include(selector);

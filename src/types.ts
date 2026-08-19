@@ -1,7 +1,13 @@
 import { z } from "zod";
 
 export const patchSchema = z.object({
-  type: z.enum(["setAttribute", "removeAttribute", "setInnerText", "setStyleProperty", "replaceOuterHTML"]),
+  type: z.enum([
+    "setAttribute",
+    "removeAttribute",
+    "setInnerText",
+    "setStyleProperty",
+    "replaceOuterHTML",
+  ]),
   attribute: z.string().optional(),
   value: z.string().optional(),
 });

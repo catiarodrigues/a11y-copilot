@@ -52,7 +52,9 @@ export async function proposeFixesForRegion(
   });
 
   if (!sessionId) {
-    throw new Error("Execution agent never called scan_page -- no session to validate fixes against");
+    throw new Error(
+      "Execution agent never called scan_page -- no session to validate fixes against",
+    );
   }
 
   return { sessionId, proposedFixes };

@@ -48,7 +48,10 @@ describe("simulate_fix_and_rescan MCP tool", () => {
     // A second, independent scan_page against the same fixture should still
     // show the original violation -- proving the simulation never touched
     // the real page.
-    const rescanOriginal = await client.callTool({ name: "scan_page", arguments: { url: fixtureUrl } });
+    const rescanOriginal = await client.callTool({
+      name: "scan_page",
+      arguments: { url: fixtureUrl },
+    });
     const rescanPayload = rescanOriginal.structuredContent as unknown as ScanPayload;
     expect(rescanPayload.violations.some((v) => v.id === "image-alt")).toBe(true);
   }, 30000);

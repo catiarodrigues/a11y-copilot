@@ -21,7 +21,9 @@ export function createProposeFixTool(sink: ProposedFix[]) {
       selector: z
         .string()
         .describe("CSS selector matching the exact violating node, from the violation's target."),
-      description: z.string().describe("One sentence describing the fix and why it addresses the violation."),
+      description: z
+        .string()
+        .describe("One sentence describing the fix and why it addresses the violation."),
       citation: z.string().describe("The WCAG/APG citation title returned by retrieve_guidance."),
       citationUrl: z.string().describe("The citation's URL, from retrieve_guidance."),
       patch: patchSchema,

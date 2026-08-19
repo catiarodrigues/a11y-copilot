@@ -2,7 +2,7 @@
 
 Context for AI coding agents working in this repo. Human-facing docs are the
 [README](README.md) and the [docs site](https://a11y-copilot.catiarodrigues.dev) — read
-those for *what the tool does*. This file is *how the repo is put together* and the stuff
+those for _what the tool does_. This file is _how the repo is put together_ and the stuff
 that's easy to accidentally undo.
 
 ## Overview
@@ -52,15 +52,15 @@ a11y-copilot/
 
 ## Where to look
 
-| Task | Location | Notes |
-| --- | --- | --- |
-| Add a CLI flag/command | `src/cli.ts` | Commander |
-| Add an MCP tool | `mcp-server/tools/` + `schemas.ts` + `server.ts`, then a matching wrapper in `agents/tools/` | two-sided: the MCP server registers it, the agent side wraps it for Tool Runner |
-| Change what a patch can do | `src/types.ts` (`patchSchema`) | single source of truth — see Anti-patterns |
-| Add/edit WCAG or ARIA guidance | `data/wcag-corpus/*.md`, then `npm run build:rag` | chunked by `##` heading |
-| Change an agent's prompt/behavior | `agents/{planning,execution,validation}.ts` | update the matching `*Mock.ts`'s described behavior too if `--mock` output should reflect it |
-| Change the pipeline loop itself | `agents/orchestrator.ts` | `runAudit()` — ~60 lines, read it whole before touching |
-| User-facing docs | `docs/src/content/docs/` | not generated — edit by hand |
+| Task                              | Location                                                                                     | Notes                                                                                        |
+| --------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| Add a CLI flag/command            | `src/cli.ts`                                                                                 | Commander                                                                                    |
+| Add an MCP tool                   | `mcp-server/tools/` + `schemas.ts` + `server.ts`, then a matching wrapper in `agents/tools/` | two-sided: the MCP server registers it, the agent side wraps it for Tool Runner              |
+| Change what a patch can do        | `src/types.ts` (`patchSchema`)                                                               | single source of truth — see Anti-patterns                                                   |
+| Add/edit WCAG or ARIA guidance    | `data/wcag-corpus/*.md`, then `npm run build:rag`                                            | chunked by `##` heading                                                                      |
+| Change an agent's prompt/behavior | `agents/{planning,execution,validation}.ts`                                                  | update the matching `*Mock.ts`'s described behavior too if `--mock` output should reflect it |
+| Change the pipeline loop itself   | `agents/orchestrator.ts`                                                                     | `runAudit()` — ~60 lines, read it whole before touching                                      |
+| User-facing docs                  | `docs/src/content/docs/`                                                                     | not generated — edit by hand                                                                 |
 
 ## Conventions
 
@@ -70,8 +70,10 @@ a11y-copilot/
   hand-written interface, so runtime validation and the TypeScript type can never drift apart.
 - Every real Claude-calling agent has a `*Mock.ts` file with an identical function signature,
   wired through the `AgentBundle` interface in `agents/bundle.ts`.
-- No linter or formatter is configured. Match the surrounding file's style; don't introduce
-  your own conventions mid-file.
+- Linted with [oxlint](https://oxc.rs/docs/guide/usage/linter.html) (`npm run lint`) and
+  formatted with [oxfmt](https://oxc.rs/docs/guide/usage/formatter.html)
+  (`npm run format:check` / `format:write`), configured in `oxlint.config.ts` /
+  `.oxfmtrc.json`. Both stay silent on a clean pass — no output, exit `0`.
 
 ## Rules
 
@@ -84,28 +86,31 @@ a11y-copilot/
   `--no-gpg-sign`, etc.) unless explicitly asked.
 - **Never commit secrets, `.env`, or npm tokens.** Check `git status`/`git diff` for
   anything that looks like a credential before staging.
-- **Run the full test suite (`npm test`) before calling any change done.** `npm run build`
-  only type-checks; it doesn't run the MCP server / RAG integration tests, which is where
-  real regressions show up.
+- **Run `npm run lint`, `npm run format:check`, and `npm test` before calling any change
+  done.** `npm run build` only type-checks; it doesn't lint, doesn't check formatting, and
+  doesn't run the MCP server / RAG integration tests, which is where real regressions show up.
 
 ## Anti-patterns
 
-| Don't | Why | Instead |
-| --- | --- | --- |
-| Lower `engines.node` below `20.10.0` | `src/config.ts` calls `process.loadEnvFile()`, added in Node 20.10 — older Node throws on any `.env` load | leave `engines` as-is, or remove the call first |
-| Remove or skip the `postbuild` script | npm silently drops a `bin` entry pointing at a non-executable file at publish time — this shipped broken to npm once already (0.1.0) | keep `postbuild`; sanity-check with `npm pack --dry-run` before publishing |
-| Redefine the patch shape locally | five separate copies drifted before being deduplicated into `src/types.ts` | import `patchSchema` / `Patch` from `../types.js` |
-| Trust an agent's own "resolved" claim | the model can be wrong or overconfident about its own fix | read `simulate_fix_and_rescan`'s real axe-core result instead (`agents/validation.ts`) |
-| Hand-edit `data/embeddings.json` | it's a build artifact of `data/wcag-corpus/`, regenerated (and overwritten) by `npm run build:rag` | edit the source `.md` files, then rebuild |
-| Import `src/agents/` from `src/mcp-server/` | breaks the "any MCP client can use this scanner" boundary the README promises | keep the MCP server standalone |
+| Don't                                       | Why                                                                                                                                  | Instead                                                                                |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------- |
+| Lower `engines.node` below `20.10.0`        | `src/config.ts` calls `process.loadEnvFile()`, added in Node 20.10 — older Node throws on any `.env` load                            | leave `engines` as-is, or remove the call first                                        |
+| Remove or skip the `postbuild` script       | npm silently drops a `bin` entry pointing at a non-executable file at publish time — this shipped broken to npm once already (0.1.0) | keep `postbuild`; sanity-check with `npm pack --dry-run` before publishing             |
+| Redefine the patch shape locally            | five separate copies drifted before being deduplicated into `src/types.ts`                                                           | import `patchSchema` / `Patch` from `../types.js`                                      |
+| Trust an agent's own "resolved" claim       | the model can be wrong or overconfident about its own fix                                                                            | read `simulate_fix_and_rescan`'s real axe-core result instead (`agents/validation.ts`) |
+| Hand-edit `data/embeddings.json`            | it's a build artifact of `data/wcag-corpus/`, regenerated (and overwritten) by `npm run build:rag`                                   | edit the source `.md` files, then rebuild                                              |
+| Import `src/agents/` from `src/mcp-server/` | breaks the "any MCP client can use this scanner" boundary the README promises                                                        | keep the MCP server standalone                                                         |
 
 ## Commands
 
 ```bash
 npm install
-npm run build          # tsc -> dist/, then postbuild chmods dist/cli.js +x
-npm run build:rag      # data/wcag-corpus/*.md -> data/embeddings.json (local model, no API cost)
+npm run build           # tsc -> dist/, then postbuild chmods dist/cli.js +x
+npm run build:rag       # data/wcag-corpus/*.md -> data/embeddings.json (local model, no API cost)
 npm run dev -- audit <url> --mock   # fastest real smoke test -- free, real scan + real MCP server
+npm run lint             # oxlint . -- silent on a clean pass
+npm run format:check     # oxfmt --check . -- silent on a clean pass
+npm run format:write     # oxfmt . -- applies fixes
 npm test                # pretest warms the embedding model cache, then vitest
 npm publish              # prepublishOnly runs build + build:rag automatically; needs a version bump first
 ```
@@ -114,17 +119,18 @@ npm publish              # prepublishOnly runs build + build:rag automatically; 
 
 ## Toolchain
 
-| Tool | Where | Notes |
-| --- | --- | --- |
-| Node | `>=20.10.0` (root); pinned to `22` for `docs/` via `.nvmrc` | root minimum is a hard requirement, not a suggestion — see Anti-patterns |
-| TypeScript | strict, NodeNext modules | `tsconfig.json` |
-| Vitest | `test/` | `pretest` hook warms the embedding model cache first, to avoid a cold-cache download race |
-| Playwright + axe-core | `src/scan.ts`, `mcp-server/browserManager.ts` | `postinstall` runs `playwright install chromium` |
-| `@huggingface/transformers` | `src/rag/embeddings.ts` | local embedding model (`Xenova/all-MiniLM-L6-v2`), no API cost |
-| `@anthropic-ai/sdk` | `agents/*.ts` | Tool Runner (`toolRunner()`) for execution/validation, `messages.parse()` for planning |
-| `@modelcontextprotocol/sdk` | `mcp-server/`, `mcp-client/` | stdio transport |
-| zod | throughout | v4 |
-| Astro + Starlight | `docs/` | separate project; deploys via Cloudflare Workers static assets (`docs/wrangler.jsonc`) |
+| Tool                        | Where                                                       | Notes                                                                                     |
+| --------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| Node                        | `>=20.10.0` (root); pinned to `22` for `docs/` via `.nvmrc` | root minimum is a hard requirement, not a suggestion — see Anti-patterns                  |
+| TypeScript                  | strict, NodeNext modules                                    | `tsconfig.json`                                                                           |
+| Vitest                      | `test/`                                                     | `pretest` hook warms the embedding model cache first, to avoid a cold-cache download race |
+| Playwright + axe-core       | `src/scan.ts`, `mcp-server/browserManager.ts`               | `postinstall` runs `playwright install chromium`                                          |
+| `@huggingface/transformers` | `src/rag/embeddings.ts`                                     | local embedding model (`Xenova/all-MiniLM-L6-v2`), no API cost                            |
+| `@anthropic-ai/sdk`         | `agents/*.ts`                                               | Tool Runner (`toolRunner()`) for execution/validation, `messages.parse()` for planning    |
+| `@modelcontextprotocol/sdk` | `mcp-server/`, `mcp-client/`                                | stdio transport                                                                           |
+| zod                         | throughout                                                  | v4                                                                                        |
+| oxlint + oxfmt              | root (`src/`, `test/`)                                      | `oxlint.config.ts` / `.oxfmtrc.json`; scoped to the root package, not `docs/`             |
+| Astro + Starlight           | `docs/`                                                     | separate project; deploys via Cloudflare Workers static assets (`docs/wrangler.jsonc`)    |
 
 ## Security
 

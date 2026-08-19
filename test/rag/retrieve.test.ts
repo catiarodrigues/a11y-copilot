@@ -14,7 +14,10 @@ describe("retrieveGuidance", () => {
   }, 30000);
 
   it("surfaces the disclosure/accordion pattern for an aria-expanded query", async () => {
-    const results = await retrieveGuidance("accordion toggle button missing aria-expanded state", 3);
+    const results = await retrieveGuidance(
+      "accordion toggle button missing aria-expanded state",
+      3,
+    );
 
     expect(results.some((r) => r.id.startsWith("apg-disclosure-accordion"))).toBe(true);
   }, 30000);

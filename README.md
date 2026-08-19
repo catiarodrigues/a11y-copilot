@@ -7,7 +7,7 @@ A CLI accessibility auditor built on a 3-agent pipeline (Planning → Execution 
 
 It scans a rendered page, explains each violation grounded in real WCAG 2.2 / ARIA APG
 guidance (via a local RAG index — no external vector DB), proposes a fix, and then
-*validates* that fix by simulating it against a cloned copy of the page's DOM and
+_validates_ that fix by simulating it against a cloned copy of the page's DOM and
 re-scanning before reporting it as confirmed. It never modifies your live page or your
 source files.
 

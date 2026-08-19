@@ -16,9 +16,15 @@ export function formatReport(url: string, entries: ReportEntry[]): string {
 
     lines.push(`${badge} ${chalk.bold(entry.violationId)}  ${chalk.dim(entry.selector)}`);
     lines.push(`  ${entry.description}`);
-    lines.push(`  ${chalk.dim("Citation:")} ${entry.citation}${entry.citationUrl ? ` (${entry.citationUrl})` : ""}`);
-    lines.push(`  ${chalk.dim("Patch:")} ${entry.patch.type}${entry.patch.attribute ? ` ${entry.patch.attribute}` : ""}=${JSON.stringify(entry.patch.value ?? "")}`);
-    lines.push(`  ${chalk.dim("Validation:")} ${entry.notes} ${chalk.dim(`(${entry.attempts} attempt${entry.attempts === 1 ? "" : "s"})`)}`);
+    lines.push(
+      `  ${chalk.dim("Citation:")} ${entry.citation}${entry.citationUrl ? ` (${entry.citationUrl})` : ""}`,
+    );
+    lines.push(
+      `  ${chalk.dim("Patch:")} ${entry.patch.type}${entry.patch.attribute ? ` ${entry.patch.attribute}` : ""}=${JSON.stringify(entry.patch.value ?? "")}`,
+    );
+    lines.push(
+      `  ${chalk.dim("Validation:")} ${entry.notes} ${chalk.dim(`(${entry.attempts} attempt${entry.attempts === 1 ? "" : "s"})`)}`,
+    );
     lines.push("");
   }
 

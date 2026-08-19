@@ -77,7 +77,8 @@ export function registerSimulateFixAndRescanTool(server: McpServer): void {
         });
 
         const beforeIds = new Set(snapshot.violations.map((v) => v.id));
-        const beforeCount = snapshot.violations.find((v) => v.id === violationId)?.nodes.length ?? 0;
+        const beforeCount =
+          snapshot.violations.find((v) => v.id === violationId)?.nodes.length ?? 0;
 
         const afterMatch = afterViolations.find((v) => v.id === violationId);
         const afterCount = afterMatch?.nodes.length ?? 0;

@@ -16,8 +16,16 @@ export const retrieveGuidanceTool = betaZodTool({
     "Use this to ground any explanation or fix suggestion in real, citable guidance instead " +
     "of relying on memory.",
   inputSchema: z.object({
-    query: z.string().describe("Short description of the accessibility issue, e.g. 'image missing alt text'."),
-    k: z.number().int().min(1).max(10).optional().describe("Number of results to return (default 3)."),
+    query: z
+      .string()
+      .describe("Short description of the accessibility issue, e.g. 'image missing alt text'."),
+    k: z
+      .number()
+      .int()
+      .min(1)
+      .max(10)
+      .optional()
+      .describe("Number of results to return (default 3)."),
   }),
   run: async ({ query, k }) => {
     const results = await retrieveGuidance(query, k ?? 3);

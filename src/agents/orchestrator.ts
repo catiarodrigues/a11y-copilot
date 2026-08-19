@@ -28,7 +28,8 @@ export async function runAudit(
   try {
     const scanPlan = await agents.plan(url, options.scopeHint);
     const priorityTags = options.tagsOverride ?? scanPlan.priorityTags;
-    const regions: Array<string | undefined> = scanPlan.regions.length > 0 ? scanPlan.regions : [undefined];
+    const regions: Array<string | undefined> =
+      scanPlan.regions.length > 0 ? scanPlan.regions : [undefined];
 
     const report: ReportEntry[] = [];
 
@@ -53,7 +54,8 @@ export async function runAudit(
           simulateResult = outcome.simulateResult;
           attempt++;
 
-          const succeeded = validation.resolved && simulateResult.newViolationsIntroduced.length === 0;
+          const succeeded =
+            validation.resolved && simulateResult.newViolationsIntroduced.length === 0;
           if (succeeded || attempt >= maxRetries) {
             break;
           }

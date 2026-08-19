@@ -29,9 +29,7 @@ export async function explainOneViolation(url: string): Promise<string> {
         "what the violation is, why it matters for real users, and roughly how a developer " +
         "would fix it, citing the specific WCAG success criterion or ARIA pattern by name. " +
         "Plain prose, no markdown headers. If there are no violations, say so.",
-      messages: [
-        { role: "user", content: `Scan this page and explain one violation: ${url}` },
-      ],
+      messages: [{ role: "user", content: `Scan this page and explain one violation: ${url}` }],
     });
 
     const textBlock = finalMessage.content.find((block) => block.type === "text");
