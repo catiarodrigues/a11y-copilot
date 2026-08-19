@@ -1,3 +1,13 @@
+import { z } from "zod";
+
+export const patchSchema = z.object({
+  type: z.enum(["setAttribute", "removeAttribute", "setInnerText", "setStyleProperty", "replaceOuterHTML"]),
+  attribute: z.string().optional(),
+  value: z.string().optional(),
+});
+export type Patch = z.infer<typeof patchSchema>;
+export type PatchType = Patch["type"];
+
 export interface ViolationNode {
   target: string[];
   html: string;

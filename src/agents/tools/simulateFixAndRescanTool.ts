@@ -1,13 +1,9 @@
 import { betaZodTool } from "@anthropic-ai/sdk/helpers/beta/zod";
 import { z } from "zod";
 import type { Client } from "@modelcontextprotocol/sdk/client/index.js";
+import { patchSchema } from "../../types.js";
+import { mcpErrorText } from "./mcpErrorText.js";
 import type { SimulateFixResult } from "../types.js";
-
-const patchSchema = z.object({
-  type: z.enum(["setAttribute", "removeAttribute", "setInnerText", "setStyleProperty", "replaceOuterHTML"]),
-  attribute: z.string().optional(),
-  value: z.string().optional(),
-});
 
 /** Bridges to the real simulate_fix_and_rescan MCP tool; captures the structured result via onResult. */
 export function createSimulateFixAndRescanTool(
@@ -29,10 +25,7 @@ export function createSimulateFixAndRescanTool(
     run: async (args) => {
       const result = await mcpClient.callTool({ name: "simulate_fix_and_rescan", arguments: args });
       if (result.isError) {
-        const text = Array.isArray(result.content)
-          ? result.content.map((c) => ("text" in c ? c.text : "")).join("\n")
-          : "simulate_fix_and_rescan failed";
-        throw new Error(text);
+        throw new Error(mcpErrorText(result.content, "simulate_fix_and_rescan failed"));
       }
       const payload = result.structuredContent as unknown as SimulateFixResult;
       onResult?.(payload);

@@ -1,6 +1,7 @@
 import { betaZodTool } from "@anthropic-ai/sdk/helpers/beta/zod";
 import { z } from "zod";
 import type { Client } from "@modelcontextprotocol/sdk/client/index.js";
+import { mcpErrorText } from "./mcpErrorText.js";
 
 /**
  * A Tool Runner tool whose `run()` forwards to the real a11y-scanner MCP
@@ -34,10 +35,7 @@ export function createScanPageTool(
         arguments: { url, include },
       });
       if (result.isError) {
-        const text = Array.isArray(result.content)
-          ? result.content.map((c) => ("text" in c ? c.text : "")).join("\n")
-          : "scan_page failed";
-        throw new Error(text);
+        throw new Error(mcpErrorText(result.content, "scan_page failed"));
       }
       const payload = result.structuredContent as { sessionId: string; violations: unknown[] };
       onResult?.(payload);

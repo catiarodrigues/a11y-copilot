@@ -1,4 +1,7 @@
 import { z } from "zod";
+import { patchSchema } from "../types.js";
+
+export { patchSchema };
 
 // This is a "raw shape" (plain object of zod fields), not a full z.object() —
 // that's the input format @modelcontextprotocol/sdk's registerTool() expects.
@@ -22,20 +25,6 @@ export const getDomSnapshotInputShape = {
   sessionId: z.string().describe("sessionId returned by a previous scan_page call."),
   selector: z.string().describe("CSS selector of the element to inspect."),
 };
-
-export const patchSchema = z.object({
-  type: z
-    .enum(["setAttribute", "removeAttribute", "setInnerText", "setStyleProperty", "replaceOuterHTML"])
-    .describe("Kind of DOM mutation to apply."),
-  attribute: z
-    .string()
-    .optional()
-    .describe("Attribute name (setAttribute/removeAttribute) or CSS property name (setStyleProperty)."),
-  value: z
-    .string()
-    .optional()
-    .describe("New value: attribute value, style value, inner text, or full outerHTML depending on type."),
-});
 
 export const simulateFixAndRescanInputShape = {
   sessionId: z.string().describe("sessionId returned by a previous scan_page call."),

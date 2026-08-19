@@ -1,12 +1,7 @@
 import { betaZodTool } from "@anthropic-ai/sdk/helpers/beta/zod";
 import { z } from "zod";
+import { patchSchema } from "../../types.js";
 import type { ProposedFix } from "../types.js";
-
-const patchSchema = z.object({
-  type: z.enum(["setAttribute", "removeAttribute", "setInnerText", "setStyleProperty", "replaceOuterHTML"]),
-  attribute: z.string().optional(),
-  value: z.string().optional(),
-});
 
 /**
  * A "submit" tool: its real job isn't to perform an action, it's to force

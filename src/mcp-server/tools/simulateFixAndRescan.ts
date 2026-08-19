@@ -1,15 +1,8 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { runAxeScan } from "../../scan.js";
+import type { Patch } from "../../types.js";
 import { getSnapshot, withPage } from "../browserManager.js";
 import { simulateFixAndRescanInputShape } from "../schemas.js";
-
-type PatchType = "setAttribute" | "removeAttribute" | "setInnerText" | "setStyleProperty" | "replaceOuterHTML";
-
-interface Patch {
-  type: PatchType;
-  attribute?: string;
-  value?: string;
-}
 
 /** Runs inside the browser via page.evaluate -- has no access to outer Node scope. */
 function applyPatchInBrowser(args: { selector: string; patch: Patch }): void {

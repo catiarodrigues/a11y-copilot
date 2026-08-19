@@ -1,10 +1,5 @@
-export type PatchType = "setAttribute" | "removeAttribute" | "setInnerText" | "setStyleProperty" | "replaceOuterHTML";
-
-export interface Patch {
-  type: PatchType;
-  attribute?: string;
-  value?: string;
-}
+import type { Patch, PatchType } from "../types.js";
+export type { Patch, PatchType };
 
 export interface ScanPlan {
   /** CSS selectors to scope scans to; empty array means scan the whole page. */
